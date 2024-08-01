@@ -2,9 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+import urllib.parse
 
-# Define the URL for the LinkedIn job search page
-url = "https://www.linkedin.com/jobs/search/?keywords=full%20stack%20developer"
+# Function to create the LinkedIn job search URL based on user input
+def create_url(role):
+    base_url = "https://www.linkedin.com/jobs/search/?keywords="
+    query = urllib.parse.quote(role)
+    return f"{base_url}{query}"
+
+# Get the job role from the user
+role = input("Enter the job role you want to search for: ")
+
+# Create the URL for the LinkedIn job search page
+url = create_url(role)
 
 # Make a request to the LinkedIn job search page
 headers = {
@@ -69,6 +79,6 @@ if response:
     })
 
     # Save the DataFrame to a CSV file
-    job_details.to_csv('linkedin_job_details11.csv', index=False)
+    job_details.to_csv('linkedin_job_details.csv', index=False)
 
-    print("Scraping completed and data saved to linkedin_job_details11.csv")
+    print("Scraping completed and data saved to linkedin_job_details.csv")
