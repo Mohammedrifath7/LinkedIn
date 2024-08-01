@@ -5,16 +5,21 @@ import time
 import urllib.parse
 
 # Function to create the LinkedIn job search URL based on user input
-def create_url(role):
-    base_url = "https://www.linkedin.com/jobs/search/?keywords="
-    query = urllib.parse.quote(role)
-    return f"{base_url}{query}"
+def create_url(role, location):
+    base_url = "https://www.linkedin.com/jobs/search/?"
+    query_params = {
+        "keywords": role,
+        "location": location
+    }
+    query_string = urllib.parse.urlencode(query_params)
+    return f"{base_url}{query_string}"
 
-# Get the job role from the user
+# Get the job role and location from the user
 role = input("Enter the job role you want to search for: ")
+location = input("Enter the location you want to search for: ")
 
 # Create the URL for the LinkedIn job search page
-url = create_url(role)
+url = create_url(role, location)
 
 # Make a request to the LinkedIn job search page
 headers = {
@@ -49,7 +54,7 @@ if response:
     titlename = []
     linkname = []
     placename = []
-    timedetail= []
+    timedetail = []
 
     # Find job cards
     job_cards = soup.find_all('div', class_='base-card relative w-full hover:no-underline focus:no-underline base-card--link base-search-card base-search-card--link job-search-card')
